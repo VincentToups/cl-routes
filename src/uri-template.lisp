@@ -20,6 +20,7 @@
 
 (defgeneric template-variables (tmpl)
   (:method (tmpl)
+  (declare (ignore tmpl))
     nil)
   (:method ((tmpl cons))
     (concatenate 'list
@@ -207,9 +208,11 @@
                            (template-data b))))
 
 (defmethod uri-template-equal ((a wildcard-template) b)
+(declare (ignore b))
   nil)
 
 (defmethod uri-template-equal (a (b wildcard-template))
+(declare (ignore a))
   nil)
 
 (defmethod uri-template-equal ((a cons) (b cons))
@@ -326,6 +329,12 @@
 
 (defmethod unify/impl (a b bindings)
   (if (equal a b) bindings +fail+))
+
+;; Seems to be an error here - going with the more general equality
+;; predicate.
+;;  (defmethod unify/impl (x y bindings) (if (eql x y)
+;; bindings +fail+))
+
 
 
 ;;; unify/impl for wildcard
@@ -447,6 +456,4 @@
 
 ;;; default unify/impl    
 
-(defmethod unify/impl (x y bindings)
-  (if (eql x y) bindings +fail+))
 

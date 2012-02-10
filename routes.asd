@@ -5,14 +5,13 @@
 ;;;;
 ;;;; Author: Moskvitin Andrey <archimag@gmail.com>
 
+;; (defpackage #:routes-system
+;;   (:use #:cl #:asdf))
 
-(defpackage #:routes-system
-  (:use #:cl #:asdf))
+;; (in-package #:routes-system)
 
-(in-package #:routes-system)
-
-(defsystem routes
-  :depends-on (#:puri #:iterate #:split-sequence)
+(asdf:defsystem #:routes
+  :depends-on (#-allegro #:puri #:iterate #:split-sequence)
   :components ((:module "src"
                         :components ((:file "package")
                                      (:file "uri-template" :depends-on ("package"))
@@ -24,7 +23,7 @@
   (operate 'load-op 'routes-test)
   (operate 'test-op 'routes-test :force t))
 
-(defsystem routes-test
+(defsystem #:routes-test
   :depends-on (#:routes #:lift)
   :components ((:module "t"
                         :components ((:file "core")

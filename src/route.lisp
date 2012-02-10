@@ -20,13 +20,15 @@
 (defgeneric route-name (route)
   (:documentation "Route name")
   (:method (route)
+  (declare (ignore route))
     "ROUTE"))
 
 (defgeneric route-check-conditions (route bindings)
   (:documentation "Used for check the additional conditions when comparing the ROUTE with the request.")
   (:method (route bindings)
+    (declare (ignore route))
+    (declare (ignore bindings))
     t))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; common route
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -38,7 +40,7 @@
 
 (defun parse-path (str &optional varspecs)
   (flet ((mkvar (name &optional wildcard)
-           (let* ((spec (intern (string-upcase name) :keyword))
+           (let* ((spec (intern name :keyword))
                   (parse-fun (getf varspecs spec )))
              (if parse-fun
                  (make-instance (if wildcard
@@ -53,7 +55,7 @@
     (if (> (length str) 0)
         (if (char= (char str 0)
                    #\*)
-            (list (mkvar (intern (string-upcase (subseq str 1)) :keyword) t))
+            (list (mkvar (intern (subseq str 1) :keyword) t))
             (let ((pos (position #\: str)))
               (if pos
                   (let ((rest (if (char= (elt str (1+ pos)) #\()

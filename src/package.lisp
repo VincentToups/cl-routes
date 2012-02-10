@@ -2,7 +2,7 @@
 ;;;;
 ;;;; This file is part of the cl-routes library, released under Lisp-LGPL.
 ;;;; See file COPYING for details.
-;;;;
+x;;;;
 ;;;; Author: Moskvitin Andrey <archimag@gmail.com>
 
 (defpackage #:routes

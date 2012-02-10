@@ -35,10 +35,10 @@
   (match map '(nil) bindings))
 
 (defmethod match (map (uri string) &optional (bindings +no-bindings+))
-  (match map (puri:parse-uri uri) bindings))
+  (match map (#-allegro puri:parse-uri #+allegro net.uri:parse-uri uri) bindings))
 
-(defmethod match (map (uri puri:uri) &optional (bindings +no-bindings+))
-  (match map (or (cdr (puri:uri-parsed-path uri)) '("")) bindings))
+(defmethod match (map (uri #-allegro puri:uri #+allegro net.uri:uri) &optional (bindings +no-bindings+))
+  (match map (or (cdr (#-allegro puri:uri-parsed-path #+allegro net.uri:uri-parsed-path uri)) '("")) bindings))
 
 (defmethod match (map (route route) &optional (bindings +no-bindings+))
   (match map (route-template route) bindings))
